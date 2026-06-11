@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/6OV1X1E.png" alt="Berkeluh Kesah Logo" width="350" />
+  <img src="https://i.imgur.com/6OV1X1E.png" alt="Berkeluh Kesah Logo" width="100%" />
 </p>
 
 # Berkeluh Kesah (React + Supabase Edition)
