@@ -4,7 +4,7 @@
 
 # Berkeluh Kesah
 
-Aplikasi papan curhat anonim berbasis React (Vite), Tailwind CSS v4, dan Supabase.
+Website papan curhat anonim berbasis React (Vite), Tailwind CSS v4, dan Supabase.
 
 ---
 
