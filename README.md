@@ -4,7 +4,7 @@
 
 # Berkeluh Kesah
 
-Aplikasi web curahan hati secara anonim dengan desain Neo-brutalisme yang ditenagai oleh React (Vite), Tailwind CSS v4, dan Supabase.
+Aplikasi papan curhat anonim berbasis React (Vite), Tailwind CSS v4, dan Supabase.
 
 ---
 
