@@ -24,7 +24,7 @@ An anonymous confession website built with React (Vite), Tailwind CSS v4, and Su
 
 Follow the steps below to set up the project locally:
 
-### 1. Prerequisites
+### 1. Requirements
 Make sure you have the following installed:
 * Node.js (v18 or higher)
 * A Supabase account
