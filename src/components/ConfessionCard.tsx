@@ -30,7 +30,7 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
   // Admin action triggers
   const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false)
   const touchStartRef = useRef<number>(0)
-  const longPressTimer = useRef<NodeJS.Timeout | null>(null)
+  const longPressTimer = useRef<any>(null)
   const isTouchRef = useRef<boolean>(false)
 
   const handleTouchStart = () => {
