@@ -292,14 +292,15 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
           </div>
         </div>
 
-        <div className="flex justify-between items-center gap-2 pt-4 border-t-2 border-black/10">
-          <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="pt-4 border-t-2 border-black/10 space-y-3">
+          {/* Reaction Console Grid */}
+          <div className="grid grid-cols-4 gap-1.5">
             {reactionsList.map((react) => {
               const isSelected = activeReaction === react.type
               return (
                 <button
                   key={react.type}
-                  className={`flex items-center gap-1 px-2.5 py-1 text-[10px] font-bold border-2 border-black rounded-[5px] transition-all duration-100 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none cursor-pointer shadow-[2px_2px_0px_0px_#000000] ${
+                  className={`flex items-center justify-center gap-1 px-1 py-1.5 text-[10px] font-bold border-2 border-black rounded-[5px] transition-all duration-100 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none cursor-pointer shadow-[2px_2px_0px_0px_#000000] ${
                     isSelected 
                       ? "bg-[#FFD93D] dark:bg-white text-black" 
                       : "bg-white dark:bg-zinc-950 text-black dark:text-white"
@@ -314,9 +315,22 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
             })}
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Action Row */}
+          <div className="flex justify-between items-center gap-2">
+            <button
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black bg-white dark:bg-zinc-950 border-2 border-black text-black dark:text-white rounded-[5px] hover:bg-[#FFD93D] dark:hover:bg-white hover:text-black transition-all cursor-pointer shadow-[2px_2px_0px_0px_#000000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none shrink-0"
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsOpen(true)
+                setShowComments(true)
+              }}
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+              <span className="font-extrabold">{post.comments?.length || 0}</span>
+            </button>
+
             {isAdmin && (
-              <>
+              <div className="flex items-center gap-1.5">
                 <button
                   onClick={handlePinToggle}
                   className={`p-1.5 border-2 border-black rounded-[5px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none ${
@@ -335,20 +349,8 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
-              </>
+              </div>
             )}
-
-            <button
-              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black bg-white dark:bg-zinc-950 border-2 border-black text-black dark:text-white rounded-[5px] hover:bg-[#FFD93D] dark:hover:bg-white hover:text-black transition-all cursor-pointer shadow-[2px_2px_0px_0px_#000000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none shrink-0"
-              onClick={(e) => {
-                e.stopPropagation()
-                setIsOpen(true)
-                setShowComments(true)
-              }}
-            >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span className="font-extrabold">{post.comments?.length || 0}</span>
-            </button>
           </div>
         </div>
       </div>
