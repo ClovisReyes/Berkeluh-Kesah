@@ -4,51 +4,51 @@
 
 # Berkeluh Kesah
 
-Website papan curhat anonim berbasis React (Vite), Tailwind CSS v4, dan Supabase.
+An anonymous confession website built with React (Vite), Tailwind CSS v4, and Supabase.
 
 ---
 
-## Fitur Utama
+## Features
 
-- **Kirim Keluhan**: Mengirim pesan curhat anonim ke penerima tertentu.
-- **Reaksi**: Reaksi interaktif secara realtime (Love, Sad, Angry, Laugh).
-- **Komentar & Balasan**: Komentar bertingkat dengan nama samaran acak otomatis.
-- **Sensor Kata Kasar**: Penyaringan otomatis kata-kata kotor bahasa Indonesia.
-- **Pin Post**: Menyematkan postingan penting di bagian atas (fitur admin).
-- **Anti-Spam**: Batasan komentar ganda dan cooldown untuk mencegah spam.
-- **Mode Gelap/Terang**: Dukungan tema dark dan light.
+- **Send Confessions**: Post anonymous confessions to a specific recipient.
+- **Reactions**: Interactive, real-time reactions (Love, Sad, Angry, Laugh).
+- **Comments & Replies**: Nested comment sections with auto-generated anonymous pseudonyms.
+- **Profanity Filter**: Automatic censorship of Indonesian bad words.
+- **Pin Posts**: Pin important confessions to the top (Admin feature).
+- **Anti-Spam**: Double-comment prevention and comment button cooldowns.
+- **Dark & Light Mode**: Tactile Neo-brutalist theme toggle.
 
 ---
 
-## Panduan Memulai
+## Getting Started
 
-Ikuti langkah-langkah di bawah ini untuk menjalankan project secara lokal:
+Follow the steps below to set up the project locally:
 
-### 1. Prasyarat
-Pastikan Anda sudah menginstal:
-* Node.js (Versi 18 atau lebih tinggi)
-* Akun Supabase (untuk database)
+### 1. Prerequisites
+Make sure you have the following installed:
+* Node.js (v18 or higher)
+* A Supabase account
 
-### 2. Clone Repositori
+### 2. Clone the Repository
 ```bash
 git clone https://github.com/ClovisReyes/Berkeluh-Kesah.git
 cd Berkeluh-Kesah
 ```
 
 ### 3. Setup Environment Variables
-Salin berkas `.env.example` menjadi `.env` di direktori utama:
+Duplicate `.env.example` to `.env` in the root directory:
 ```bash
 cp .env.example .env
 ```
-Isi nilai variabel di dalam file `.env` dengan kredensial Supabase Anda:
+Fill in the variables inside `.env` with your Supabase credentials:
 ```env
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-public-key
 VITE_ADMIN_PASSCODE=your-password
 ```
 
-### 4. Setup Database Supabase
-Jalankan query SQL berikut di SQL Editor Supabase untuk membuat tabel dan mengaktifkan fitur realtime secara otomatis:
+### 4. Setup Supabase Database
+Run the following SQL script in your Supabase SQL Editor to create the tables and enable real-time replication:
 
 ```sql
 CREATE TABLE public.posts (
@@ -78,9 +78,10 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.posts;
 ALTER PUBLICATION supabase_realtime ADD TABLE public.comments;
 ```
 
-### 5. Jalankan Aplikasi Secara Lokal
+### 5. Run the Project
+Install dependencies and start the local development server:
 ```bash
 npm install
 npm run dev
 ```
-Buka `http://localhost:5173` atau `http://localhost:3000` di browser Anda.
+Open `http://localhost:5173` or the port shown in your terminal.
