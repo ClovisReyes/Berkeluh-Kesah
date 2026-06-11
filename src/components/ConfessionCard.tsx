@@ -27,6 +27,54 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
   const [deleteCommentId, setDeleteCommentId] = useState<string | null>(null)
   const [replyingTo, setReplyingTo] = useState<{ id: string; from: string; text: string } | null>(null)
 
+  // Admin action triggers
+  const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false)
+  const touchStartRef = useRef<number>(0)
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null)
+  const isTouchRef = useRef<boolean>(false)
+
+  const handleTouchStart = () => {
+    isTouchRef.current = true
+    touchStartRef.current = Date.now()
+    
+    if (longPressTimer.current) clearTimeout(longPressTimer.current)
+    longPressTimer.current = setTimeout(() => {
+      if (isAdmin && isTouchRef.current) {
+        setIsAdminMenuOpen(true)
+        if (navigator.vibrate) {
+          navigator.vibrate(50)
+        }
+      }
+    }, 600)
+  }
+
+  const handleTouchEnd = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current)
+    }
+    
+    const duration = Date.now() - touchStartRef.current
+    if (duration < 600) {
+      setIsOpen(true)
+    }
+    setTimeout(() => {
+      isTouchRef.current = false
+    }, 100)
+  }
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (isTouchRef.current) {
+      return
+    }
+
+    if (isAdmin) {
+      setIsAdminMenuOpen(true)
+    } else {
+      setIsOpen(true)
+    }
+  }
+
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("myComments") || "[]")
     setMyComments(saved)
@@ -259,7 +307,9 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
         style={{
           '--card-accent': '#FFD93D'
         } as React.CSSProperties}
-        onClick={() => setIsOpen(true)}
+        onClick={handleCardClick}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {post.isAdminPost && (
           <div className="absolute top-0 right-0 w-24 h-24 bg-black/5 blur-2xl rounded-full -mr-5 -mt-5" />
@@ -316,7 +366,7 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
           </div>
 
           {/* Action Row */}
-          <div className="flex justify-between items-center gap-2">
+          <div className="flex justify-end items-center">
             <button
               className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black bg-white dark:bg-zinc-950 border-2 border-black text-black dark:text-white rounded-[5px] hover:bg-[#FFD93D] dark:hover:bg-white hover:text-black transition-all cursor-pointer shadow-[2px_2px_0px_0px_#000000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none shrink-0"
               onClick={(e) => {
@@ -326,34 +376,64 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
               }}
             >
               <MessageCircle className="w-3.5 h-3.5" />
-              <span className="font-extrabold">{post.comments?.length || 0}</span>
+              <span className="font-extrabold">Komentar ({post.comments?.length || 0})</span>
             </button>
-
-            {isAdmin && (
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={handlePinToggle}
-                  className={`p-1.5 border-2 border-black rounded-[5px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none ${
-                    post.isPinned 
-                      ? "bg-[#FFD93D] dark:bg-white text-black" 
-                      : "bg-white dark:bg-zinc-950 text-black dark:text-white"
-                  }`}
-                  title={post.isPinned ? "Lepas Pin" : "Pin Postingan"}
-                >
-                  <Pin className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={handleDeletePostClick}
-                  className="p-1.5 bg-red-400 hover:bg-red-500 text-black border-2 border-black rounded-[5px] shadow-[2px_2px_0px_0px_#000000] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none cursor-pointer"
-                  title="Hapus Postingan"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            )}
           </div>
         </div>
       </div>
+
+      {/* Admin Actions Modal (Desktop Click / Mobile Long Press) */}
+      {isAdminMenuOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4"
+          onClick={(e) => {
+            e.stopPropagation()
+            setIsAdminMenuOpen(false)
+          }}
+        >
+          <div 
+            className="bg-white dark:bg-zinc-900 text-black dark:text-white border-4 border-black p-6 rounded-[5px] max-w-xs w-full shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative animate-in fade-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-black mb-4 border-b-2 border-black pb-2 text-center">Menu Admin</h3>
+            <div className="space-y-3">
+              <button
+                onClick={() => {
+                  setIsAdminMenuOpen(false)
+                  setIsOpen(true)
+                }}
+                className="w-full py-2.5 font-black bg-white dark:bg-zinc-950 border-2 border-black text-black dark:text-white rounded-[5px] hover:bg-main transition-all duration-150 cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none text-center block"
+              >
+                Buka Detail
+              </button>
+              <button
+                onClick={async (e) => {
+                  setIsAdminMenuOpen(false)
+                  await handlePinToggle(e)
+                }}
+                className="w-full py-2.5 font-black bg-white dark:bg-zinc-950 border-2 border-black text-black dark:text-white rounded-[5px] hover:bg-main transition-all duration-150 cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none text-center block"
+              >
+                {post.isPinned ? "Lepas Pin" : "Sematkan (Pin)"}
+              </button>
+              <button
+                onClick={(e) => {
+                  setIsAdminMenuOpen(false)
+                  handleDeletePostClick(e)
+                }}
+                className="w-full py-2.5 font-black bg-red-400 border-2 border-black text-black rounded-[5px] hover:bg-red-500 transition-all duration-150 cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none text-center block"
+              >
+                Hapus Postingan
+              </button>
+              <button
+                onClick={() => setIsAdminMenuOpen(false)}
+                className="w-full py-2.5 font-black bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-2 border-black rounded-[5px] cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all duration-150"
+              >
+                Batal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Detail Dialog Modal */}
       {isOpen && (
