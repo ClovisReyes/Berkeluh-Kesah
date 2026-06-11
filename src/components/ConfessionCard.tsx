@@ -67,11 +67,14 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
     if (isTouchRef.current) {
       return
     }
+    setIsOpen(true)
+  }
 
+  const handleContextMenu = (e: React.MouseEvent) => {
     if (isAdmin) {
+      e.preventDefault()
+      e.stopPropagation()
       setIsAdminMenuOpen(true)
-    } else {
-      setIsOpen(true)
     }
   }
 
@@ -308,6 +311,7 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
           '--card-accent': '#FFD93D'
         } as React.CSSProperties}
         onClick={handleCardClick}
+        onContextMenu={handleContextMenu}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -366,9 +370,9 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
           </div>
 
           {/* Action Row */}
-          <div className="flex justify-end items-center">
+          <div className="w-full">
             <button
-              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black bg-white dark:bg-zinc-950 border-2 border-black text-black dark:text-white rounded-[5px] hover:bg-[#FFD93D] dark:hover:bg-white hover:text-black transition-all cursor-pointer shadow-[2px_2px_0px_0px_#000000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none shrink-0"
+              className="w-full flex items-center justify-center gap-1.5 px-3 py-2 text-[10px] font-black bg-white dark:bg-zinc-950 border-2 border-black text-black dark:text-white rounded-[5px] hover:bg-[#FFD93D] dark:hover:bg-white hover:text-black transition-all cursor-pointer shadow-[2px_2px_0px_0px_#000000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
               onClick={(e) => {
                 e.stopPropagation()
                 setIsOpen(true)
