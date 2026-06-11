@@ -84,12 +84,3 @@ npm install
 npm run dev
 ```
 Buka `http://localhost:5173` atau `http://localhost:3000` di browser Anda.
-
----
-
-## Kustomisasi Tema & Fitur
-
-Jika ingin mengubah tema atau memodifikasi fitur:
-- **Warna & Font**: Edit variabel `@theme` dan properti font di `src/index.css`.
-- **Sensor Kata**: Tambahkan kata baru dalam array `badWords` di `src/lib/sensor.ts`.
-- **Cooldown Komentar**: Ubah durasi `setCooldown` di `src/components/ConfessionCard.tsx`.
