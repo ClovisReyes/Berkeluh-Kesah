@@ -323,24 +323,27 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
         )}
         
         <div>
-          <div className="flex justify-between items-start mb-4">
-            <div className="space-y-1.5">
-              <p className="text-[10px] text-black/75 font-extrabold uppercase tracking-wider">Dari: {post.from}</p>
-              <div className="flex items-center gap-1.5">
-                <span className="px-2.5 py-0.5 text-[10px] font-black bg-black text-white border border-black rounded-[3px] shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
-                  Untuk: {post.to}
-                </span>
-                {post.isAdminPost && (
-                  <span className="px-2 py-0.5 text-[9px] font-extrabold bg-[#FFD93D] dark:bg-white text-black border border-black rounded-[3px] shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] uppercase select-none tracking-wider">
-                    ★ Admin
-                  </span>
-                )}
+          <div className="flex flex-col gap-2 mb-4">
+            {/* Row 1: Sender & Date */}
+            <div className="flex justify-between items-center text-[10px] text-black/75 font-extrabold tracking-wider">
+              <p className="uppercase truncate max-w-[50%]">Dari: {post.from}</p>
+              <div className="flex items-center gap-1 shrink-0 font-bold">
+                {post.isPinned && <Pin className="w-3.5 h-3.5 text-black shrink-0 fill-current animate-bounce" />}
+                <Calendar className="w-3.5 h-3.5" />
+                <span>{formattedDateTime}</span>
               </div>
             </div>
-            <div className="text-[10px] text-black/75 flex items-center gap-1 font-bold">
-              {post.isPinned && <Pin className="w-3.5 h-3.5 text-black shrink-0 fill-current animate-bounce" />}
-              <Calendar className="w-3.5 h-3.5" />
-              <span>{formattedDateTime}</span>
+
+            {/* Row 2: Recipient Badge */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="px-2.5 py-0.5 text-[10px] font-black bg-black text-white border border-black rounded-[3px] shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] max-w-full truncate">
+                Untuk: {post.to}
+              </span>
+              {post.isAdminPost && (
+                <span className="px-2 py-0.5 text-[9px] font-extrabold bg-[#FFD93D] dark:bg-white text-black border border-black rounded-[3px] shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] uppercase select-none tracking-wider shrink-0">
+                  ★ Admin
+                </span>
+              )}
             </div>
           </div>
 
