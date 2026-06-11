@@ -85,3 +85,9 @@ npm install
 npm run dev
 ```
 Open `http://localhost:5173` or the port shown in your terminal.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
