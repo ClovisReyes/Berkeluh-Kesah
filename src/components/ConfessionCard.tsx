@@ -81,6 +81,9 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("myComments") || "[]")
     setMyComments(saved)
+    return () => {
+      if (longPressTimer.current) clearTimeout(longPressTimer.current)
+    }
   }, [])
 
   const commentRef = useRef<HTMLInputElement>(null)
