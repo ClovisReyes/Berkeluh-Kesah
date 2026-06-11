@@ -417,7 +417,7 @@ export function ConfessionCard({ post, onUpdate, isAdmin }: KeluhCardProps) {
                 }}
                 className="w-full py-2.5 font-black bg-white dark:bg-zinc-950 border-2 border-black text-black dark:text-white rounded-[5px] hover:bg-main transition-all duration-150 cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none text-center block"
               >
-                {post.isPinned ? "Lepas Pin" : "Sematkan (Pin)"}
+                {post.isPinned ? "Unpin" : "Pin"}
               </button>
               <button
                 onClick={(e) => {
